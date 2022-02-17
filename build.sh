@@ -9,6 +9,7 @@ if [ -f .builddir ] ; then
 	fi
 
 	git clone -b ${branch} https://github.com/SanCloudLtd/qcacld-2.0 ./src --depth=1
+	sed -i -e 's:=wlan:=qcacld2:g' src/Makefile || true
 
 	if [ "x${ARCH}" = "xarmv7l" ] ; then
 		make_options="CROSS_COMPILE= KERNEL_SRC=/build/buildd/linux-src"
@@ -21,6 +22,7 @@ if [ -f .builddir ] ; then
 	fi
 
 	cd ./src/
+	make ARCH=arm clean
 	echo "make ARCH=arm ${make_options}"
 	make ARCH=arm ${make_options} all
 fi
